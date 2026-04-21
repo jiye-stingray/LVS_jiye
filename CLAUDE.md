@@ -14,22 +14,21 @@
 ### 폴더 구조 (Assets/)
 ```
 Assets/
-├── _Game/                  # 게임 전용 코드 및 에셋 (최상위 작업 폴더)
-│   ├── Scripts/
-│   │   ├── Core/           # GameManager, SceneLoader, ServiceLocator
-│   │   ├── Player/         # PlayerController, PlayerStats
-│   │   ├── Enemies/        # EnemyBase, EnemySpawner, EnemyAI
-│   │   ├── Weapons/        # WeaponBase, 개별 무기 클래스
-│   │   ├── Projectiles/    # ProjectileBase, 탄종별 클래스
-│   │   ├── Roguelike/      # LevelUpSystem, UpgradeData, RunData
-│   │   ├── UI/             # HUD, LevelUpUI, GameOverUI
-│   │   ├── Data/           # ScriptableObject 정의
-│   │   └── Utils/          # ObjectPool, ExtensionMethods, Helpers
-│   ├── Prefabs/
-│   ├── ScriptableObjects/
-│   ├── Scenes/
-│   ├── Sprites/
-│   └── Audio/
+├── Scripts/
+│   ├── Core/           # GameManager, SceneLoader, ServiceLocator
+│   ├── Player/         # PlayerController, PlayerStats
+│   ├── Enemy/          # EnemyBase, EnemySpawner, EnemyAI
+│   ├── Weapon/         # WeaponBase, 개별 무기 클래스
+│   ├── Projectile/     # ProjectileBase, 탄종별 클래스
+│   ├── Roguelike/      # LevelUpSystem, UpgradeData, RunData
+│   ├── UI/             # HUD, LevelUpUI, GameOverUI
+│   ├── Data/           # ScriptableObject 정의
+│   └── Utils/          # ObjectPool, ExtensionMethods, Helpers
+├── Prefabs/
+├── ScriptableObjects/
+├── Scenes/
+├── Sprites/
+├── Audio/
 └── MCPForUnity/            # 건드리지 않음
 ```
 
@@ -75,7 +74,7 @@ Assets/
 
 - Unity 에디터가 열려 있어야 MCP 도구 사용 가능
 - 씬 수정 후에는 반드시 `manage_scene`으로 저장 확인
-- 스크립트 생성 시 `create_script` 사용, 경로는 `Assets/_Game/Scripts/` 하위
+- 스크립트 생성 시 `create_script` 사용, 경로는 `Assets/Scripts/` 하위
 - 프리팹 생성·수정은 `manage_prefabs` 사용
 - 컴파일 오류 확인은 `read_console` 사용
 
