@@ -13,7 +13,7 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public UIManager UI { get; private set; }
+    public UIManager UI = new UIManager();
 
     private void Awake()
     {
@@ -25,12 +25,6 @@ public class Manager : MonoBehaviour
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
-
-        InitManagers();
     }
 
-    private void InitManagers()
-    {
-        UI = GetComponentInChildren<UIManager>();
-    }
 }

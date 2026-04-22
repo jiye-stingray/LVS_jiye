@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager 
 {
     public VirtualJoystick Joystick { get; private set; }
 

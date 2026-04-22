@@ -69,6 +69,43 @@ private void spawn_enemy() { }
 ### namespace
 - `namespace` 사용 금지 — 모든 클래스는 전역 네임스페이스에 작성
 
+### Manager 하위 클래스 설계 기준
+
+Manager에 등록하는 기능별 클래스는 MonoBehaviour 필요 여부에 따라 두 가지로 구분한다.
+
+**MonoBehaviour 불필요** (Unity 라이프사이클, Inspector 직렬화 불필요)
+- 순수 C# 클래스로 작성
+- Manager에서 `new`로 직접 생성
+
+```csharp
+// UIManager.cs
+public class UIManager
+{
+    public VirtualJoystick Joystick { get; private set; }
+    public void RegisterJoystick(VirtualJoystick joystick) { Joystick = joystick; }
+}
+
+// Manager.cs
+public UIManager UI = new UIManager();
+```
+
+**MonoBehaviour 필요** (Awake/Update/코루틴/Inspector 직렬화 필요)
+- MonoBehaviour 상속
+- Manager 오브젝트의 자식으로 씬에 배치
+- Manager의 `InitManagers()`에서 `GetComponentInChildren<>()`으로 참조
+
+```csharp
+// SomeManager.cs
+public class SomeManager : MonoBehaviour { ... }
+
+// Manager.cs
+public SomeManager Some { get; private set; }
+private void InitManagers()
+{
+    Some = GetComponentInChildren<SomeManager>();
+}
+```
+
 
 ### [SerializeField]
 - 인스펙터에 노출할 필드는 `public` 대신 `private [SerializeField]` 사용
