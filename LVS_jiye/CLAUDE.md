@@ -66,6 +66,10 @@ private void spawn_enemy() { }
 
 ## 코드 규칙
 
+### namespace
+- `namespace` 사용 금지 — 모든 클래스는 전역 네임스페이스에 작성
+
+
 ### [SerializeField]
 - 인스펙터에 노출할 필드는 `public` 대신 `private [SerializeField]` 사용
 
