@@ -1,23 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class ObjectPool
 {
-    public static ObjectPool Instance { get; private set; }
-
     private readonly Dictionary<string, Queue<GameObject>> _pools = new();
     private readonly Dictionary<string, GameObject> _prefabs = new();
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
 
     public void Register(GameObject prefab, int initialCount = 0)
     {
@@ -52,18 +39,17 @@ public class ObjectPool : MonoBehaviour
     {
         if (!_pools.ContainsKey(key))
         {
-            Destroy(obj);
+            Object.Destroy(obj);
             return;
         }
 
         obj.SetActive(false);
-        obj.transform.SetParent(transform);
         _pools[key].Enqueue(obj);
     }
 
     private GameObject CreateNew(string key)
     {
-        GameObject obj = Instantiate(_prefabs[key], transform);
+        GameObject obj = Object.Instantiate(_prefabs[key]);
         obj.name = key;
         return obj;
     }

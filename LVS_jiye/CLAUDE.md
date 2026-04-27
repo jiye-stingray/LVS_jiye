@@ -25,8 +25,13 @@ Assets/
 │   ├── Roguelike/     # 레벨업, 업그레이드, 런 데이터
 │   ├── UI/            # HUD, 메뉴, 팝업
 │   ├── Data/          # ScriptableObject 정의
+│   ├── SO/
+│   │   └── Skill/     # SkillData ScriptableObject 에셋
 │   └── Utils/         # 유틸리티, 확장 메서드, ObjectPool
 ├── Prefabs/
+├── Resources/
+│   └── Prefabs/
+│       └── Skill/     # 스킬 관련 프리팹
 ├── ScriptableObjects/
 ├── Scenes/
 ├── Sprites/

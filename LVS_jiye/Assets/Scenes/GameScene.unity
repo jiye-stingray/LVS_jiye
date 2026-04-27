@@ -378,6 +378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1257487952}
+  - component: {fileID: 1257487956}
   - component: {fileID: 1257487953}
   - component: {fileID: 1257487951}
   - component: {fileID: 1257487955}
@@ -468,7 +469,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f8b77febca47943b6d60a08c987862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
+  _stat:
+    _attackPower: 10
+    _defense: 5
+    _moveSpeed: 5
+    _skillCooldown: 1
+    _expMultiplier: 1
 --- !u!95 &1257487954
 Animator:
   serializedVersion: 5
@@ -517,6 +523,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1257487956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257487950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79121ded2c92b1a4f9ab67c19749999a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _orbSkillData: {fileID: 11400000, guid: 2ae2577cc685a0b40bca563bf7825e61, type: 2}
 --- !u!1 &1308825483
 GameObject:
   m_ObjectHideFlags: 0

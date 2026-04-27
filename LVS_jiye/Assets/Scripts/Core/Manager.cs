@@ -13,7 +13,9 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public UIManager UI = new UIManager();
+    public UIManager UI       = new UIManager();
+    public UserInfoData User  = new UserInfoData();
+    public ObjectPool Pool    = new ObjectPool();
 
     private void Awake()
     {
