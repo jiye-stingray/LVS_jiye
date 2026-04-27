@@ -1,22 +1,79 @@
 # LVS_jiye Unity 프로젝트 규칙
 
+## 프로젝트 개요
+
+뱀파이어 서바이벌 장르의 탄막 로그라이크 모바일 게임.
+- 엔진: Unity (URP, 모바일 최적화)
+- 타겟 플랫폼: Android / iOS
+- MCP for Unity 연동으로 Claude가 Unity 에디터를 직접 조작
+
+---
+
 ## 파일 및 폴더 구조
 
 - 모든 C# 스크립트는 `Assets/Scripts/` 하위의 기능별 폴더에 생성한다.
 - 해당 폴더가 없으면 새로 만든다.
 
 ```
-Assets/Scripts/
-├── Core/          # GameManager, SceneLoader 등 핵심 시스템
-├── Player/        # 플레이어 컨트롤러, 스탯
-├── Enemy/         # 적 AI, 스포너
-├── Weapon/        # 무기 베이스 및 개별 무기
-├── Projectile/    # 탄환 클래스
-├── Roguelike/     # 레벨업, 업그레이드, 런 데이터
-├── UI/            # HUD, 메뉴, 팝업
-├── Data/          # ScriptableObject 정의
-└── Utils/         # 유틸리티, 확장 메서드, ObjectPool
+Assets/
+├── Scripts/
+│   ├── Core/          # GameManager, SceneLoader 등 핵심 시스템
+│   ├── Player/        # 플레이어 컨트롤러, 스탯
+│   ├── Enemy/         # 적 AI, 스포너
+│   ├── Weapon/        # 무기 베이스 및 개별 무기
+│   ├── Projectile/    # 탄환 클래스
+│   ├── Roguelike/     # 레벨업, 업그레이드, 런 데이터
+│   ├── UI/            # HUD, 메뉴, 팝업
+│   ├── Data/          # ScriptableObject 정의
+│   └── Utils/         # 유틸리티, 확장 메서드, ObjectPool
+├── Prefabs/
+├── ScriptableObjects/
+├── Scenes/
+├── Sprites/
+├── Audio/
+└── MCPForUnity/       # 건드리지 않음
 ```
+
+---
+
+## 게임 시스템 설계
+
+### 핵심 루프
+1. 적 자동 스폰 → 플레이어 자동 공격 → 경험치 획득 → 레벨업 시 업그레이드 선택
+2. 생존 시간이 점수. 30분 생존 시 최종 보스 등장
+
+### 플레이어
+- 조작: 터치 조이스틱 (가상 조이스틱, 단일 손가락)
+- 공격: 완전 자동 (Vampire Survivors 방식)
+- 스탯: HP, 이동속도, 공격력, 공속, 범위, 행운, 자석 범위
+
+### 무기 시스템
+- `WeaponBase` 추상 클래스 상속
+- 각 무기는 SO(`WeaponData`)로 레벨별 스탯 정의
+- 최대 6슬롯 장착
+
+### 적 시스템
+- `EnemySpawner`가 웨이브 SO를 읽어 스폰
+- 적은 항상 플레이어를 향해 이동 (기본 AI)
+- 엘리트·보스는 별도 행동 패턴
+
+### 로그라이크 업그레이드
+- 레벨업 시 3개 무작위 선택지 제시
+- 선택지: 신규 무기 획득 / 기존 무기 강화 / 패시브 아이템
+- 런 종료 시 초기화 (영구 해금은 메타 진행으로 별도 관리)
+
+---
+
+## Unity MCP 사용 규칙
+
+- Unity 에디터가 열려 있어야 MCP 도구 사용 가능
+- 씬 수정 후에는 반드시 `manage_scene`으로 저장 확인
+- 프리팹 생성·수정은 `manage_prefabs` 사용
+- 컴파일 오류 확인은 `read_console` 사용
+
+### MCP vs Claude Code 툴 구분
+- **C# 스크립트 읽기/생성/수정** → Claude Code의 `Read`, `Write`, `Edit` 툴 사용 (MCP 불필요)
+- **Unity 에디터 조작** (씬 저장, 프리팹, 게임오브젝트, 콘솔 확인 등) → MCP for Unity 사용
 
 ---
 
@@ -106,6 +163,28 @@ private void InitManagers()
 }
 ```
 
+### 코드 배치 순서
+- 변수(필드)는 항상 함수(메서드) 위에 위치
+
+```csharp
+// 좋은 예
+public class Enemy : MonoBehaviour
+{
+    [SerializeField] private float _moveSpeed;
+    private Rigidbody2D _rb;
+
+    private void Awake() { _rb = GetComponent<Rigidbody2D>(); }
+    private void Update() { ... }
+}
+
+// 나쁜 예
+public class Enemy : MonoBehaviour
+{
+    private void Awake() { ... }
+
+    private float _moveSpeed;  // 함수 아래 변수 선언
+}
+```
 
 ### [SerializeField]
 - 인스펙터에 노출할 필드는 `public` 대신 `private [SerializeField]` 사용
@@ -160,3 +239,36 @@ float damage = _weaponData.damage;
 // 나쁜 예
 float damage = 25.0f;
 ```
+
+---
+
+## 성능 규칙 (모바일 최적화)
+
+- 탄환·적: 반드시 ObjectPool 사용
+- `Update()`에서 `GetComponent<>()` 호출 금지 → `Awake()`/`Start()`에서 캐싱
+- `FindObjectOfType()` 런타임 호출 금지 → 직접 참조 사용
+- `Camera.main` 반복 호출 금지 → `Awake()`에서 캐싱
+- 물리: 2D Physics 사용, Layer Matrix로 불필요한 충돌 체크 제거
+- 텍스처: Sprite Atlas 사용, 최대 해상도 512x512 (UI 제외)
+- 목표 프레임: 60fps (중급 Android 기준)
+
+---
+
+## 작업 흐름
+
+1. 기능 구현 요청 → 설계 먼저 간단히 논의
+2. ScriptableObject 데이터 구조 먼저 정의
+3. 코어 로직 스크립트 작성
+4. Unity MCP로 씬/프리팹에 연결
+5. `read_console`로 오류 확인 후 수정
+
+---
+
+## 금지 사항
+
+- `Destroy(gameObject)` 직접 호출 (풀로 반환할 것)
+- 코드에 밸런스 수치 하드코딩 (SO 사용)
+- `Camera.main` 반복 호출 (캐싱 필수)
+- `string` 태그 비교 (`CompareTag()` 사용)
+- 씬 간 데이터를 `PlayerPrefs`로 전달 (RunData SO 사용)
+- `FindObjectOfType()` 런타임 호출
