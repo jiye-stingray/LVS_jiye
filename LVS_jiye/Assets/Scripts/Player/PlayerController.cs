@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private Stat _stat = new Stat();
+    public Stat Stat => _stat;
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        Vector2 nextPosition = _rigidbody.position + _moveDirection * (_moveSpeed * Time.fixedDeltaTime);
+        Vector2 nextPosition = _rigidbody.position + _moveDirection * (_stat.MoveSpeed * Time.fixedDeltaTime);
         _rigidbody.MovePosition(nextPosition);
     }
 
@@ -72,5 +73,4 @@ public class PlayerController : MonoBehaviour
             _spriteRenderer.flipX = _moveDirection.x > 0;
     }
 
-    public void SetMoveSpeed(float speed) => _moveSpeed = speed;
 }
