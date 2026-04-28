@@ -18,11 +18,16 @@ public class PlayerController : MonoBehaviour
     private static readonly int ANIM_MOVE_X    = Animator.StringToHash("MoveX");
     private static readonly int ANIM_MOVE_Y    = Animator.StringToHash("MoveY");
 
+    public Transform _skillHolder;
+
+
     private void Awake()
     {
         _rigidbody     = GetComponent<Rigidbody2D>();
         _animator      = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        Manager.Instance.InitPlayerController(this);
     }
 
     private void Update()

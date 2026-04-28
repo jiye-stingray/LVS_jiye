@@ -18,6 +18,7 @@
 Assets/
 ├── Scripts/
 │   ├── Core/          # GameManager, SceneLoader 등 핵심 시스템
+│   ├── Manager/       # Manager.cs 및 ~Manager 클래스 전체
 │   ├── Player/        # 플레이어 컨트롤러, 스탯
 │   ├── Enemy/         # 적 AI, 스포너
 │   ├── Weapon/        # 무기 베이스 및 개별 무기
@@ -124,6 +125,12 @@ private void spawn_enemy() { }
 | 상수 | ALL_CAPS | `MAX_ENEMY_COUNT` |
 | 인터페이스 | I + PascalCase | `IDamageable` |
 
+### 스킬 클래스 ↔ SkillData 네이밍 규칙
+- `SkillData` SO 에셋 이름은 항상 `~Data`로 끝난다. (예: `RotatingOrbSkillData`)
+- 해당 스킬을 구현하는 `SkillBase` 상속 클래스 이름은 SO 에셋 이름에서 `Data`를 제거한 것과 동일해야 한다.
+  - `RotatingOrbSkillData` → `RotatingOrbSkill`
+- `SkillManager`는 `data.name`에서 `Data` suffix를 제거해 클래스 이름을 자동 추론하므로, `SkillData`에 `SkillClassName` 같은 별도 필드를 두지 않는다.
+
 ---
 
 ## 코드 규칙
@@ -131,13 +138,19 @@ private void spawn_enemy() { }
 ### namespace
 - `namespace` 사용 금지 — 모든 클래스는 전역 네임스페이스에 작성
 
-### Manager 하위 클래스 설계 기준
+### Manager 시스템
 
-Manager에 등록하는 기능별 클래스는 MonoBehaviour 필요 여부에 따라 두 가지로 구분한다.
+`Manager`는 씬에 배치된 싱글톤 MonoBehaviour로, 모든 서브매니저를 소유한다.
+- 파일 위치: `Assets/Scripts/Manager/`
+- 접근 방법: `Manager.Instance.XXX`
 
-**MonoBehaviour 불필요** (Unity 라이프사이클, Inspector 직렬화 불필요)
-- 순수 C# 클래스로 작성
-- Manager에서 `new`로 직접 생성
+#### 서브매니저 등록 방식 — 2가지 패턴
+
+**패턴 A. 순수 C# 클래스** (MonoBehaviour 불필요)
+
+Unity 라이프사이클·Inspector 직렬화가 필요 없는 경우.
+- 순수 C# 클래스로 작성 (MonoBehaviour 상속 금지)
+- `Manager.cs`에서 `public 필드 = new XXXManager()` 로 직접 생성
 
 ```csharp
 // UIManager.cs
@@ -145,27 +158,52 @@ public class UIManager
 {
     public VirtualJoystick Joystick { get; private set; }
     public void RegisterJoystick(VirtualJoystick joystick) { Joystick = joystick; }
+    public void UnregisterJoystick() { Joystick = null; }
+}
+
+// SkillManager.cs
+public class SkillManager
+{
+    private readonly Dictionary<string, SkillBase> _skills = new();
+    public void AddSkill(SkillData data) { ... }
+    public void LevelUpSkill(string skillId) { ... }
 }
 
 // Manager.cs
-public UIManager UI = new UIManager();
+public UIManager UI       = new UIManager();
+public SkillManager Skill = new SkillManager();
+public ObjectPool Pool    = new ObjectPool();
 ```
 
-**MonoBehaviour 필요** (Awake/Update/코루틴/Inspector 직렬화 필요)
+**패턴 B. MonoBehaviour 컴포넌트** (Unity 라이프사이클 필요)
+
+Awake/Update/코루틴/Inspector 직렬화가 필요한 경우.
 - MonoBehaviour 상속
-- Manager 오브젝트의 자식으로 씬에 배치
-- Manager의 `InitManagers()`에서 `GetComponentInChildren<>()`으로 참조
+- 해당 컴포넌트가 스스로 `Manager.Instance.InitXXX(this)` 를 호출해 등록
 
 ```csharp
-// SomeManager.cs
-public class SomeManager : MonoBehaviour { ... }
+// PlayerController.cs
+public class PlayerController : MonoBehaviour
+{
+    private void Awake()
+    {
+        Manager.Instance.InitPlayerController(this);
+    }
+}
 
 // Manager.cs
-public SomeManager Some { get; private set; }
-private void InitManagers()
-{
-    Some = GetComponentInChildren<SomeManager>();
-}
+public PlayerController Player { get; private set; }
+public void InitPlayerController(PlayerController player) { Player = player; }
+```
+
+#### 외부에서 사용 방법
+
+```csharp
+// 어디서든 Manager.Instance.XXX 로 접근
+Manager.Instance.UI.RegisterJoystick(this);
+Manager.Instance.Skill.AddSkill(data);
+Manager.Instance.Pool.Get("Bullet");
+Manager.Instance.Player.transform.position;
 ```
 
 ### 코드 배치 순서

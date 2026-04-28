@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RotatingOrbSkillData
   m_EditorClassIdentifier: 
   _skillId: 1
+  _skillClassName: RotatingOrbSkill
   _skillType: 1
   _skillName: "\uD68C\uC804 \uAC80\uAE30"
   _description: "\uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC744 \uD68C\uC804\uD558\uB294 \uAC80\uAE30
@@ -33,23 +34,18 @@ MonoBehaviour:
     cooldown: 1
   _orbPrefabName: OrbSkillPrefab
   _orbLevelStats:
-  - attackPower: 10
-    orbCount: 1
+  - orbCount: 1
     rotateSpeed: 120
     hitInterval: 1
-  - attackPower: 15
-    orbCount: 1
+  - orbCount: 1
     rotateSpeed: 135
     hitInterval: 0.9
-  - attackPower: 20
-    orbCount: 2
+  - orbCount: 2
     rotateSpeed: 150
     hitInterval: 0.8
-  - attackPower: 28
-    orbCount: 2
+  - orbCount: 2
     rotateSpeed: 165
     hitInterval: 0.7
-  - attackPower: 40
-    orbCount: 3
+  - orbCount: 3
     rotateSpeed: 180
     hitInterval: 0.6

@@ -26,8 +26,8 @@ public class SkillData : ScriptableObject
     // index 0 = 레벨 1 스탯
     [SerializeField] private SkillLevelData[] _levelStats;
 
-    public string SkillId        => _skillId;
-    public SkillType SkillType   => _skillType;
+    public string SkillId          => _skillId;
+    public SkillType SkillType     => _skillType;
     public string SkillName      => _skillName;
     public string Description    => _description;
     public Sprite Icon           => _icon;

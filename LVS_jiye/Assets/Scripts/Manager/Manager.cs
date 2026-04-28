@@ -13,9 +13,16 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public UIManager UI       = new UIManager();
-    public UserInfoData User  = new UserInfoData();
-    public ObjectPool Pool    = new ObjectPool();
+    public UIManager UI        = new UIManager();
+    public UserInfoData User   = new UserInfoData();
+    public ObjectPool Pool     = new ObjectPool();
+    public SkillManager skill = new SkillManager();
+    public PlayerController Player { get; private set; }
+
+    public void InitPlayerController(PlayerController player)
+    {
+        Player = player;
+    }
 
     private void Awake()
     {
@@ -27,6 +34,6 @@ public class Manager : MonoBehaviour
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
-    }
 
+    }
 }
