@@ -3,12 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : UnitBase
 {
-    [Header("Stats")]
-    [SerializeField] private Stat _stat = new Stat();
-    public Stat Stat => _stat;
-
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -21,13 +17,19 @@ public class PlayerController : MonoBehaviour
     public Transform _skillHolder;
 
 
-    private void Awake()
+    protected override void Awake()
     {
-        _rigidbody     = GetComponent<Rigidbody2D>();
-        _animator      = GetComponent<Animator>();
+        base.Awake();
+        _rigidbody      = GetComponent<Rigidbody2D>();
+        _animator       = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         Manager.Instance.InitPlayerController(this);
+    }
+
+    protected override void Die()
+    {
+        // TODO: 게임 오버 처리
     }
 
     private void Update()
