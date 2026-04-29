@@ -8,7 +8,22 @@ public class Manager : MonoBehaviour
         get
         {
             if (_instance == null)
-                Debug.LogError("[Manager] Instance is null. Make sure Manager exists in the scene.");
+            {
+                var go = GameObject.Find("Managers");
+                if(go != null)
+                {
+                    _instance = go.GetComponent<Manager>();
+                }
+                else
+                {
+                    var manager = new GameObject("Manager");
+                    manager.AddComponent<Manager>();
+                    _instance = manager.GetComponent<Manager>();
+                }
+
+                if(_instance == null)
+                    Debug.LogError("[Manager] Instance is null. Make sure Manager exists in the scene.");
+            }
             return _instance;
         }
     }
@@ -16,12 +31,19 @@ public class Manager : MonoBehaviour
     public UIManager UI        = new UIManager();
     public UserInfoData User   = new UserInfoData();
     public ObjectPool Pool     = new ObjectPool();
-    public SkillManager skill = new SkillManager();
+    public SkillManager skill  = new SkillManager();
+    public WaveManager Wave    = new WaveManager();
     public PlayerController Player { get; private set; }
+    public WaveSpawner WaveSpawner { get; private set; }
 
     public void InitPlayerController(PlayerController player)
     {
         Player = player;
+    }
+
+    public void InitWaveController(WaveSpawner waveSpawner)
+    {
+        WaveSpawner = waveSpawner;
     }
 
     private void Awake()

@@ -8,6 +8,9 @@ public class MonsterBase : UnitBase
     public MonsterData Data => _data;
 
     private Rigidbody2D _rb;
+    private Transform _playerTransform;
+
+    private readonly Dictionary<Collider2D, float> _hitCooldowns = new();
 
     protected override void Awake()
     {
@@ -19,10 +22,21 @@ public class MonsterBase : UnitBase
             _rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
     }
 
-    // 오브젝트 풀에서 꺼낼 때 HP 초기화
     protected virtual void OnEnable()
     {
         ResetHp();
+        _hitCooldowns.Clear();
+
+        if (Manager.Instance?.Player != null)
+            _playerTransform = Manager.Instance.Player.transform;
+    }
+
+    private void FixedUpdate()
+    {
+        if (_playerTransform == null || _rb == null) return;
+
+        Vector2 dir = ((Vector2)_playerTransform.position - _rb.position).normalized;
+        _rb.MovePosition(_rb.position + dir * _data.BaseStat.MoveSpeed * Time.fixedDeltaTime);
     }
 
     protected override void Die()
@@ -32,7 +46,6 @@ public class MonsterBase : UnitBase
         Manager.Instance.Pool.Return(poolKey, gameObject);
     }
 
-    private readonly Dictionary<Collider2D, float> _hitCooldowns = new();
     private void OnTriggerStay2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;

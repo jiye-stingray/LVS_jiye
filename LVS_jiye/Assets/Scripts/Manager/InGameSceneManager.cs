@@ -13,5 +13,8 @@ public class InGameSceneManager : MonoBehaviour
         Manager.Instance.skill.InitSkillHolder();
         Manager.Instance.skill.AddSkill(_orbSkillData);
 
+        Manager.Instance.Wave.Init(Manager.Instance.WaveSpawner);
+
+
     }
 }

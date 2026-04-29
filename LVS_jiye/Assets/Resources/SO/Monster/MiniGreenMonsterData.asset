@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0bc5cfd6a97438243853a90fbce849dd, type: 3}
-  m_Name: Monste01Data
+  m_Name: MiniGreenMonsterData
   m_EditorClassIdentifier: 
-  _monsterName: "\uBC15"
+  _monsterName: "\uBC14\uC704\uAC8C"
   _baseStat:
     _maxHp: 3
     _attackPower: 8
     _defense: 0
-    _moveSpeed: 3.5
+    _moveSpeed: 1
     _skillCooldown: 0
     _expMultiplier: 1
   _expDrop: 5
-  _poolKey: Monster01
+  _poolKey: MiniGreenMonster
