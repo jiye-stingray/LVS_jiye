@@ -35,15 +35,24 @@ public class Manager : MonoBehaviour
     public WaveManager Wave    = new WaveManager();
     public PlayerController Player { get; private set; }
     public WaveSpawner WaveSpawner { get; private set; }
+    public CameraController Camera { get; private set; }
 
     public void InitPlayerController(PlayerController player)
     {
         Player = player;
+        Camera?.SetTarget(player.transform);
     }
 
     public void InitWaveController(WaveSpawner waveSpawner)
     {
         WaveSpawner = waveSpawner;
+    }
+
+    public void InitCameraController(CameraController camera)
+    {
+        Camera = camera;
+        if (Player != null)
+            Camera.SetTarget(Player.transform);
     }
 
     private void Awake()
