@@ -14,7 +14,7 @@ public abstract class ActiveSkillBase : SkillBase
         _timer += Time.deltaTime;
         if (IsReady)
         {
-            _timer = Cooldown;
+            _timer = 0f;
             OnSkillAction();
         }
     }

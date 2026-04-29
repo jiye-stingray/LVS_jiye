@@ -1,13 +1,18 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterBase : UnitBase
 {
+    private static readonly Color HIT_FLASH_COLOR = Color.red;
+    private const float HIT_FLASH_DURATION = 0.1f;
+
     [SerializeField] private MonsterData _data;
 
     public MonsterData Data => _data;
 
     private Rigidbody2D _rb;
+    private SpriteRenderer _spriteRenderer;
     private Transform _playerTransform;
 
     private readonly Dictionary<Collider2D, float> _hitCooldowns = new();
@@ -18,6 +23,7 @@ public class MonsterBase : UnitBase
             _stat = _data.BaseStat;
         base.Awake();
         _rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         if (_rb != null)
             _rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
     }
@@ -26,6 +32,9 @@ public class MonsterBase : UnitBase
     {
         ResetHp();
         _hitCooldowns.Clear();
+
+        if (_spriteRenderer != null)
+            _spriteRenderer.color = Color.white;
 
         if (Manager.Instance?.Player != null)
             _playerTransform = Manager.Instance.Player.transform;
@@ -37,6 +46,20 @@ public class MonsterBase : UnitBase
 
         Vector2 dir = ((Vector2)_playerTransform.position - _rb.position).normalized;
         _rb.MovePosition(_rb.position + dir * _data.BaseStat.MoveSpeed * Time.fixedDeltaTime);
+    }
+
+    public override void TakeDamage(float amount)
+    {
+        base.TakeDamage(amount);
+        if (_spriteRenderer != null && gameObject.activeInHierarchy)
+            StartCoroutine(FlashRed());
+    }
+
+    private IEnumerator FlashRed()
+    {
+        _spriteRenderer.color = HIT_FLASH_COLOR;
+        yield return new WaitForSeconds(HIT_FLASH_DURATION);
+        _spriteRenderer.color = Color.white;
     }
 
     protected override void Die()

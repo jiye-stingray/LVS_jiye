@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotatingOrbSkill : SkillBase
+public class RotatingOrbSkill : ActiveSkillBase
 {
     private const string SKILL_PREFAB_PATH = "Prefabs/Skill/";
     private const float ORBIT_RADIUS = 2.0f;
@@ -26,12 +26,15 @@ public class RotatingOrbSkill : SkillBase
 
         Manager.Instance.Pool.Register(_orbPrefab);
         CreateOrbHolder();
-        RefreshOrbs();
         _isInitialized = true;
+
+        OnSkillAction();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (!_isInitialized) return;
 
         _orbHolder.position = transform.position;
@@ -42,43 +45,56 @@ public class RotatingOrbSkill : SkillBase
 
     protected override void OnLevelUp()
     {
-        RefreshOrbs();
+        OnSkillAction();
     }
 
-    private void CreateOrbHolder()
+    protected override void OnSkillAction()
     {
-        var holder = new GameObject("OrbHolder");
-        holder.transform.position = transform.position;
-        _orbHolder = holder.transform;
-    }
-
-    private void RefreshOrbs()
-    {
-        ReturnAllOrbs();
+        _orbHolder.position = transform.position;
+        ClearOrbs();
 
         var data = _orbData.GetOrbLevelData(CurrentLevel);
         float angleStep = 360f / data.orbCount;
 
         for (int i = 0; i < data.orbCount; i++)
         {
-            GameObject orb = Manager.Instance.Pool.Get(_orbPrefab.name);
-            orb.transform.SetParent(_orbHolder);
-
             float angle = angleStep * i * Mathf.Deg2Rad;
-            orb.transform.localPosition = new Vector2(
+            var localPos = new Vector2(
                 Mathf.Cos(angle) * ORBIT_RADIUS,
                 Mathf.Sin(angle) * ORBIT_RADIUS
             );
-
-            orb.GetComponent<OrbHitHandler>().Init(AttackPower, data.hitInterval);
-            _orbs.Add(orb);
+            SpawnOrb(localPos);
         }
     }
 
-    private void ReturnAllOrbs()
+    private void CreateOrbHolder()
     {
-        foreach (var orb in _orbs)
+        var holder = new GameObject("OrbHolder");
+        _orbHolder = holder.transform;
+        _orbHolder.position = transform.position;
+    }
+
+    private void SpawnOrb(Vector3 localPos)
+    {
+        GameObject orb = Manager.Instance.Pool.Get(_orbPrefab.name);
+        orb.transform.SetParent(_orbHolder);
+        orb.transform.localPosition = localPos;
+        orb.GetComponent<OrbHitHandler>().Init(AttackPower, ReturnOrb);
+        _orbs.Add(orb);
+    }
+
+    private void ReturnOrb(GameObject orb)
+    {
+        _orbs.Remove(orb);
+        orb.transform.SetParent(null);
+        Manager.Instance.Pool.Return(_orbPrefab.name, orb);
+    }
+
+    private void ClearOrbs()
+    {
+        for (int i = _orbs.Count - 1; i >= 0; i--)
         {
+            var orb = _orbs[i];
             orb.transform.SetParent(null);
             Manager.Instance.Pool.Return(_orbPrefab.name, orb);
         }
@@ -87,7 +103,7 @@ public class RotatingOrbSkill : SkillBase
 
     private void OnDestroy()
     {
-        ReturnAllOrbs();
+        ClearOrbs();
         if (_orbHolder != null)
             Destroy(_orbHolder.gameObject);
     }

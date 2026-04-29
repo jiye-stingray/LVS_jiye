@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: RotatingOrbSkillData
   m_EditorClassIdentifier: 
   _skillId: 1
-  _skillClassName: RotatingOrbSkill
   _skillType: 1
   _skillName: "\uD68C\uC804 \uAC80\uAE30"
   _description: "\uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC744 \uD68C\uC804\uD558\uB294 \uAC80\uAE30
