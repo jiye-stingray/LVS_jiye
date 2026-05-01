@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2046da2b43ad6844aff238479a3ed1d, type: 3}
+  m_Name: FrostShotSkillData
+  m_EditorClassIdentifier: 
+  _skillId: 2
+  _skillType: 1
+  _skillName: "\uB0C9\uAE30 \uC0AC\uCD9C"
+  _description: "\uC804\uBC29\uC73C\uB85C \uB0C9\uAE30 \uD22C\uC0AC\uCCB4\uB97C \uBC1C\uC0AC.
+    \uC801\uC911 \uC2DC \uD53C\uACA9\uB41C \uBAAC\uC2A4\uD130\uC758 \uC774\uB3D9\uC18D\uB3C4
+    \uAC10\uC18C \uBC0F  \uB370\uBBF8\uC9C0. \uB808\uBCA8\uC5C5 \uC2DC \uAD00\uD1B5
+    \uC218 \uC99D\uAC00, \uBE59\uACB0 \uD655\uB960 \uBD80\uC5EC.\r\n"
+  _icon: {fileID: 0}
+  _levelStats:
+  - attackPower: 2
+    cooldown: 2.5
+  - attackPower: 3
+    cooldown: 2.2
+  - attackPower: 5
+    cooldown: 2
+  - attackPower: 10
+    cooldown: 1.8
+  - attackPower: 20
+    cooldown: 1.5
+  _projectilePrefabName: FrostShotSkillProjectPrefab
+  _frostLevelStats:
+  - pierceCount: 0
+    freezeChance: 0
+    slowAmount: 0.4
+    slowDuration: 1.5
+    freezeDuration: 0
+    projectileSpeed: 10
+  - pierceCount: 1
+    freezeChance: 0
+    slowAmount: 0.5
+    slowDuration: 1.8
+    freezeDuration: 0
+    projectileSpeed: 11
+  - pierceCount: 2
+    freezeChance: 0.15
+    slowAmount: 0.5
+    slowDuration: 2
+    freezeDuration: 1
+    projectileSpeed: 12
+  - pierceCount: 3
+    freezeChance: 0.25
+    slowAmount: 0.6
+    slowDuration: 2
+    freezeDuration: 1.5
+    projectileSpeed: 13
+  - pierceCount: 4
+    freezeChance: 0.4
+    slowAmount: 0.7
+    slowDuration: 2.5
+    freezeDuration: 2
+    projectileSpeed: 14

@@ -15,6 +15,9 @@ public class MonsterBase : UnitBase
     private SpriteRenderer _spriteRenderer;
     private Transform _playerTransform;
 
+    private float _speedMultiplier = 1f;
+    private Coroutine _slowCoroutine;
+
     private readonly Dictionary<Collider2D, float> _hitCooldowns = new();
 
     protected override void Awake()
@@ -32,6 +35,13 @@ public class MonsterBase : UnitBase
     {
         ResetHp();
         _hitCooldowns.Clear();
+        _speedMultiplier = 1f;
+
+        if (_slowCoroutine != null)
+        {
+            StopCoroutine(_slowCoroutine);
+            _slowCoroutine = null;
+        }
 
         if (_spriteRenderer != null)
             _spriteRenderer.color = Color.white;
@@ -40,12 +50,30 @@ public class MonsterBase : UnitBase
             _playerTransform = Manager.Instance.Player.transform;
     }
 
+    public void ApplySlow(float speedMultiplier, float duration)
+    {
+        if (!gameObject.activeInHierarchy) return;
+
+        if (_slowCoroutine != null)
+            StopCoroutine(_slowCoroutine);
+
+        _slowCoroutine = StartCoroutine(SlowRoutine(speedMultiplier, duration));
+    }
+
+    private IEnumerator SlowRoutine(float speedMultiplier, float duration)
+    {
+        _speedMultiplier = Mathf.Clamp01(speedMultiplier);
+        yield return new WaitForSeconds(duration);
+        _speedMultiplier = 1f;
+        _slowCoroutine   = null;
+    }
+
     private void FixedUpdate()
     {
         if (_playerTransform == null || _rb == null) return;
 
         Vector2 dir = ((Vector2)_playerTransform.position - _rb.position).normalized;
-        _rb.MovePosition(_rb.position + dir * _data.BaseStat.MoveSpeed * Time.fixedDeltaTime);
+        _rb.MovePosition(_rb.position + dir * _data.BaseStat.MoveSpeed * _speedMultiplier * Time.fixedDeltaTime);
     }
 
     public override void TakeDamage(float amount)

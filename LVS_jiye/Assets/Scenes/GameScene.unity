@@ -463,6 +463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _orbSkillData: {fileID: 11400000, guid: 2ae2577cc685a0b40bca563bf7825e61, type: 2}
+  _frostShotSkillData: {fileID: 11400000, guid: d991017ec822e0e4f8bde3fb49b63938, type: 2}
 --- !u!1 &1257487950
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +834,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

@@ -15,6 +15,7 @@ public class SkillData : ScriptableObject
     [SerializeField] private ESkillType _skillType;
 
     [SerializeField] private string _skillName;
+    [TextArea(3, 6)]
     [SerializeField] private string _description;
     [SerializeField] private Sprite _icon;
 

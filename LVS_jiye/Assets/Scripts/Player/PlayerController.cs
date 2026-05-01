@@ -9,6 +9,9 @@ public class PlayerController : UnitBase
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     private Vector2 _moveDirection;
+    private Vector2 _lastMoveDirection = Vector2.up;
+
+    public Vector2 MoveDirection => _lastMoveDirection;
 
     private static readonly int ANIM_IS_MOVING = Animator.StringToHash("IsMoving");
     private static readonly int ANIM_MOVE_X    = Animator.StringToHash("MoveX");
@@ -57,6 +60,9 @@ public class PlayerController : UnitBase
         {
             _moveDirection = joystick.Direction;
         }
+
+        if (_moveDirection.sqrMagnitude > 0.01f)
+            _lastMoveDirection = _moveDirection;
     }
 
     private void Move()
