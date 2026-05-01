@@ -1,10 +1,5 @@
 using UnityEngine;
-
-public enum SkillType
-{
-    Passive,
-    Active
-}
+using static Define;
 
 [System.Serializable]
 public struct SkillLevelData
@@ -17,7 +12,7 @@ public struct SkillLevelData
 public class SkillData : ScriptableObject
 {
     [SerializeField] private string _skillId;
-    [SerializeField] private SkillType _skillType;
+    [SerializeField] private ESkillType _skillType;
 
     [SerializeField] private string _skillName;
     [SerializeField] private string _description;
@@ -27,7 +22,7 @@ public class SkillData : ScriptableObject
     [SerializeField] private SkillLevelData[] _levelStats;
 
     public string SkillId          => _skillId;
-    public SkillType SkillType     => _skillType;
+    public ESkillType SkillType      => _skillType;
     public string SkillName      => _skillName;
     public string Description    => _description;
     public Sprite Icon           => _icon;

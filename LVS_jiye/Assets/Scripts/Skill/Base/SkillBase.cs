@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Define;
 
 public abstract class SkillBase : MonoBehaviour
 {
@@ -6,7 +7,7 @@ public abstract class SkillBase : MonoBehaviour
 
     private int _currentLevel = 1;
 
-    public SkillType SkillType   => _skillData.SkillType;
+    public ESkillType SkillType  => _skillData.SkillType;
     public string SkillName      => _skillData.SkillName;
     public string Description    => _skillData.Description;
     public Sprite Icon           => _skillData.Icon;

@@ -124,6 +124,17 @@ private void spawn_enemy() { }
 | 로컬 변수 | camelCase | `tempValue` |
 | 상수 | ALL_CAPS | `MAX_ENEMY_COUNT` |
 | 인터페이스 | I + PascalCase | `IDamageable` |
+| enum | E + PascalCase | `ESkillType`, `EEnemyState` |
+
+### enum 정의 위치
+- 모든 enum은 `Assets/Scripts/Utils/Define.cs` 안에서만 정의한다.
+- 개별 스크립트에 enum을 직접 선언하지 않는다.
+
+```csharp
+// Define.cs
+public enum ESkillType { Passive, Active }
+public enum EEnemyState { Idle, Chase, Attack, Dead }
+```
 
 ### 스킬 클래스 ↔ SkillData 네이밍 규칙
 - `SkillData` SO 에셋 이름은 항상 `~Data`로 끝난다. (예: `RotatingOrbSkillData`)
