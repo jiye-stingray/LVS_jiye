@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkillManager 
 {
     private GameObject _skillHolder = null;
-    private readonly Dictionary<string, SkillBase> _skills = new();
+    private readonly Dictionary<int, SkillBase> _skills = new();
 
 
     
@@ -41,7 +41,7 @@ public class SkillManager
         _skills[data.SkillId] = skill;
     }
 
-    public void LevelUpSkill(string skillId)
+    public void LevelUpSkill(int skillId)
     {
         if (_skills.TryGetValue(skillId, out var skill))
             skill.LevelUp();
@@ -49,9 +49,9 @@ public class SkillManager
             Debug.LogWarning($"[SkillManager] Skill '{skillId}' not found.");
     }
 
-    public bool HasSkill(string skillId) => _skills.ContainsKey(skillId);
+    public bool HasSkill(int skillId) => _skills.ContainsKey(skillId);
 
-    public SkillBase GetSkill(string skillId)
+    public SkillBase GetSkill(int skillId)
     {
         _skills.TryGetValue(skillId, out var skill);
         return skill;

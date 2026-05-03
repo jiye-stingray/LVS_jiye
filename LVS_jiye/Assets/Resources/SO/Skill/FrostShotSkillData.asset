@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2046da2b43ad6844aff238479a3ed1d, type: 3}
   m_Name: FrostShotSkillData
   m_EditorClassIdentifier: 
+  _id: 2
   _skillId: 2
   _skillType: 1
   _skillName: "\uB0C9\uAE30 \uC0AC\uCD9C"

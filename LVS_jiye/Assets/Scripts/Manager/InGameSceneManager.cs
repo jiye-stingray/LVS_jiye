@@ -1,22 +1,29 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class InGameSceneManager : MonoBehaviour
 {
-    [SerializeField] private RotatingOrbSkillData _orbSkillData;
-    [SerializeField] private FrostShotSkillData _frostShotSkillData;
+    private Dictionary<int, SkillData> _dicSkillData = new();
 
+
+    private void Awake()
+    {
+        LoadAllSkillData();
+        
+    }
     private void Start()
     {
-        // dummy & test 
-        Manager.Instance.skill.InitSkillHolder();
-        //Manager.Instance.skill.AddSkill(_orbSkillData);
-        Manager.Instance.skill.AddSkill(_frostShotSkillData);
 
+        Manager.Instance.skill.InitSkillHolder();
         Manager.Instance.Wave.Init(Manager.Instance.WaveSpawner);
 
+        Manager.Instance.skill.AddSkill(_dicSkillData[3]);
+    }
 
+    private void LoadAllSkillData()
+    {
+        var allSkillData = Resources.LoadAll<SkillData>("SO/Skill");
+        foreach (var data in allSkillData)
+            _dicSkillData[data.SkillId] = data;
     }
 }

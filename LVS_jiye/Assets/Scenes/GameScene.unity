@@ -462,8 +462,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846e643ffff8b7948bf41cd5c7b195ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _orbSkillData: {fileID: 11400000, guid: 2ae2577cc685a0b40bca563bf7825e61, type: 2}
-  _frostShotSkillData: {fileID: 11400000, guid: d991017ec822e0e4f8bde3fb49b63938, type: 2}
 --- !u!1 &1257487950
 GameObject:
   m_ObjectHideFlags: 0

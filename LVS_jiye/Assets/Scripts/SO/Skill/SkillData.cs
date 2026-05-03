@@ -11,7 +11,7 @@ public struct SkillLevelData
 [CreateAssetMenu(fileName = "SkillData", menuName = "Data/SkillData")]
 public class SkillData : ScriptableObject
 {
-    [SerializeField] private string _skillId;
+    [SerializeField] private int _skillId;
     [SerializeField] private ESkillType _skillType;
 
     [SerializeField] private string _skillName;
@@ -22,7 +22,7 @@ public class SkillData : ScriptableObject
     // index 0 = 레벨 1 스탯
     [SerializeField] private SkillLevelData[] _levelStats;
 
-    public string SkillId          => _skillId;
+    public int SkillId          => _skillId;
     public ESkillType SkillType      => _skillType;
     public string SkillName      => _skillName;
     public string Description    => _description;

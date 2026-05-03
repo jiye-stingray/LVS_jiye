@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af247d0885af4e148b3b32a4d1b953e8, type: 3}
   m_Name: RotatingOrbSkillData
   m_EditorClassIdentifier: 
+  _id: 1
   _skillId: 1
   _skillType: 1
   _skillName: "\uD68C\uC804 \uAC80\uAE30"
