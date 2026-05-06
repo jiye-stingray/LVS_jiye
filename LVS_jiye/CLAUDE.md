@@ -31,8 +31,10 @@ Assets/
 │   └── Utils/         # 유틸리티, 확장 메서드, ObjectPool
 ├── Prefabs/
 ├── Resources/
-│   └── Prefabs/
-│       └── Skill/     # 스킬 관련 프리팹
+│   ├── Prefabs/
+│   │   └── Skill/     # 스킬 관련 프리팹
+│   └── SO/
+│       └── Skill/     # 스킬 SkillData ScriptableObject 에셋
 ├── ScriptableObjects/
 ├── Scenes/
 ├── Sprites/

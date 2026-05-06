@@ -17,7 +17,7 @@ public class InGameSceneManager : MonoBehaviour
         Manager.Instance.skill.InitSkillHolder();
         Manager.Instance.Wave.Init(Manager.Instance.WaveSpawner);
 
-        Manager.Instance.skill.AddSkill(_dicSkillData[3]);
+        Manager.Instance.skill.AddSkill(_dicSkillData[4]);
     }
 
     private void LoadAllSkillData()
