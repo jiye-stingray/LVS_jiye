@@ -219,6 +219,63 @@ Manager.Instance.Pool.Get("Bullet");
 Manager.Instance.Player.transform.position;
 ```
 
+### 스킬 시스템 구조
+
+#### 클래스 계층
+
+```
+ScriptableObject
+└── SkillData                    # 공통 메타 + 레벨별 attackPower/cooldown
+    └── XxxSkillData             # 스킬 고유 필드 + 고유 levelStats[] 추가
+
+MonoBehaviour
+└── SkillBase                    # 레벨·스탯 관리, Init/LevelUp
+    ├── ActiveSkillBase          # 쿨타임 타이머 + OnSkillAction() 자동 호출
+    │   └── XxxSkill             # OnSkillAction() 구현
+    └── RotatingOrbSkill         # 상시 동작 스킬 (ActiveSkillBase 미사용)
+```
+
+#### 각 레이어 역할
+
+- **SkillData** — 공통 메타(`skillId`, `icon` 등) + `SkillLevelData[]`(`attackPower`, `cooldown`). 자식 SO는 고유 스탯 배열을 별도로 추가
+- **SkillBase** — `Init()`으로 데이터 주입, `LevelUp()` 처리, `AttackPower`/`Cooldown`은 항상 `SkillData`에서 읽음
+- **ActiveSkillBase** — `Update()`에서 타이머 누적, 쿨타임 도달 시 `OnSkillAction()` 자동 호출. 자식은 `OnSkillAction()` 하나만 구현
+
+#### 스킬 구현 3가지 패턴
+
+| 패턴 | 예시 | 방식 |
+|------|------|------|
+| 투사체 발사 | `FrostShotSkill` | Pool Get → Projectile.Init() → 자체 이동·충돌 후 Pool Return |
+| 코루틴 체인 | `LightningChainSkill` | OnSkillAction()에서 코루틴 시작 → 순차 탐색·이펙트 처리 |
+| 장판 트리거 | `CurseAuraSkill` | Instantiate로 auraZone 생성 → Trigger 컴포넌트가 Enter/Exit 감지 후 콜백 |
+
+#### 보조 컴포넌트 규칙 (`Assets/Scripts/Skill/Etc/`)
+
+- 물리·트리거 처리는 스킬 클래스에 직접 작성하지 않고 **별도 컴포넌트로 분리**
+- 보조 컴포넌트는 `Init(owner 또는 data)`로 필요한 값을 주입받아 동작
+
+```csharp
+// 좋은 예 — 스킬이 보조 컴포넌트에 위임
+auraZone.GetComponent<CurseAuraTrigger>().Init(this);
+projectile.GetComponent<FrostShotProjectile>().Init(AttackPower, ...);
+
+// 나쁜 예 — 스킬 클래스에 OnTriggerEnter2D 직접 작성
+```
+
+#### 전체 흐름
+
+```
+SkillManager.AddSkill(data)
+  → SkillHolder에 컴포넌트 AddComponent
+  → skill.Init(data)        # 프리팹 로드, Pool 등록, 초기화
+      ↓
+ActiveSkillBase.Update()    # 매 프레임 타이머 누적
+  → 쿨타임 도달
+  → OnSkillAction()         # 각 스킬 고유 동작 실행
+      ↓
+보조 컴포넌트(Projectile/Trigger/Effect)가 나머지 처리
+```
+
 ### 코드 배치 순서
 - 변수(필드)는 항상 함수(메서드) 위에 위치
 
