@@ -11,7 +11,7 @@ public struct FrostShotLevelData
     public float projectileSpeed;
 }
 
-[CreateAssetMenu(fileName = "FrostShotSkillData", menuName = "Data/FrostShotSkillData")]
+[CreateAssetMenu(fileName = "FrostShotSkillData", menuName = "Data/Skill/FrostShotSkillData")]
 public class FrostShotSkillData : SkillData
 {
     [SerializeField] private string _projectilePrefabName;

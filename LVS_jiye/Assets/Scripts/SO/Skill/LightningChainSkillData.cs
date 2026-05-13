@@ -8,7 +8,7 @@ public struct LightningChainLevelData
     public float chainDelay;    // 연쇄 간 딜레이(초)
 }
 
-[CreateAssetMenu(fileName = "LightningChainSkillData", menuName = "Data/LightningChainSkillData")]
+[CreateAssetMenu(fileName = "LightningChainSkillData", menuName = "Data/Skill/LightningChainSkillData")]
 public class LightningChainSkillData : SkillData
 {
     [SerializeField] private string _effectPrefabName;

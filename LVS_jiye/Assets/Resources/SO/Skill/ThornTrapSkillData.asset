@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345cd6a47249dc149bf805a65b698fac, type: 3}
+  m_Name: ThornTrapSkillData
+  m_EditorClassIdentifier: 
+  _skillId: 5
+  _skillType: 1
+  _skillName: "\uAC00\uC2DC \uB36B"
+  _description: "\uC8FC\uAE30\uC801\uC73C\uB85C \uD0C0\uAC9F\uD305\uD55C \uBAAC\uC2A4\uD130
+    \uC8FC\uC704 \uC9C0\uBA74\uC5D0 \uAC00\uC2DC \uB36B\uC744 \uC124\uCE58. \uC801\uC774
+    \uBC1F\uC73C\uBA74 \uD53C\uD574.  \uB808\uBCA8\uC5C5 \uC2DC \uB36B \uAC1C\uC218\xB7\uC9C0\uC18D\uC2DC\uAC04
+    \uC99D\uAC00."
+  _icon: {fileID: 0}
+  _levelStats:
+  - attackPower: 20
+    cooldown: 8
+  - attackPower: 25
+    cooldown: 7.5
+  - attackPower: 30
+    cooldown: 7
+  - attackPower: 38
+    cooldown: 6.5
+  - attackPower: 45
+    cooldown: 6
+  _trapPrefabName: ThornTrapTriggerPrefab
+  _searchRange: 15
+  _deployRadius: 1.5
+  _trapLevelStats:
+  - trapCount: 3
+    duration: 5
+  - trapCount: 4
+    duration: 6
+  - trapCount: 5
+    duration: 7
+  - trapCount: 6
+    duration: 8
+  - trapCount: 8
+    duration: 10

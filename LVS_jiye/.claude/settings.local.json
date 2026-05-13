@@ -8,7 +8,9 @@
       "mcp__unityMCP__manage_animation",
       "mcp__unityMCP__execute_code",
       "mcp__unityMCP__manage_packages",
-      "mcp__unityMCP__manage_scriptable_object"
+      "mcp__unityMCP__manage_scriptable_object",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\asus\\\\Desktop\\\\Project\\\\LVS_jiye\\\\LVS_jiye\\\\Assets\\\\Scripts\" -Recurse -Filter \"*.cs\")",
+      "Bash(Select-Object -ExpandProperty FullName)"
     ]
   }
 }

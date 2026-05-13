@@ -80,8 +80,9 @@ Assets/
 - 컴파일 오류 확인은 `read_console` 사용
 
 ### MCP vs Claude Code 툴 구분
-- **C# 스크립트 읽기/생성/수정** → Claude Code의 `Read`, `Write`, `Edit` 툴 사용 (MCP 불필요)
+- **C# 스크립트 읽기/생성/수정/분석** → Claude Code의 `Read`, `Write`, `Edit` 툴 사용 (MCP 불필요)
 - **Unity 에디터 조작** (씬 저장, 프리팹, 게임오브젝트, 콘솔 확인 등) → MCP for Unity 사용
+- **MCP는 명시적으로 요청한 경우에만 사용** — 따로 언급이 없으면 MCP 사용 금지
 
 ---
 

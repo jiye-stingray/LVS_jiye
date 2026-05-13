@@ -7,7 +7,7 @@ public struct CurseAuraLevelData
     public float duration;
 }
 
-[CreateAssetMenu(fileName = "CurseAuraSkillData", menuName = "Data/CurseAuraSkillData")]
+[CreateAssetMenu(fileName = "CurseAuraSkillData", menuName = "Data/Skill/CurseAuraSkillData")]
 public class CurseAuraSkillData : SkillData
 {
     [SerializeField] private string _auraPrefabName;

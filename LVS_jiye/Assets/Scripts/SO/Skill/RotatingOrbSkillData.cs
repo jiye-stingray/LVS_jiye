@@ -8,7 +8,7 @@ public struct RotatingOrbLevelData
     public float hitInterval;
 }
 
-[CreateAssetMenu(fileName = "RotatingOrbSkillData", menuName = "Data/RotatingOrbSkillData")]
+[CreateAssetMenu(fileName = "RotatingOrbSkillData", menuName = "Data/Skill/RotatingOrbSkillData")]
 public class RotatingOrbSkillData : SkillData
 {
     [SerializeField] private string _orbPrefabName;

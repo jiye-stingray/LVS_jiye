@@ -8,7 +8,7 @@ public struct SkillLevelData
     public float cooldown;
 }
 
-[CreateAssetMenu(fileName = "SkillData", menuName = "Data/SkillData")]
+[CreateAssetMenu(fileName = "SkillData", menuName = "Data/Skill/SkillData")]
 public class SkillData : ScriptableObject
 {
     [SerializeField] private int _skillId;
